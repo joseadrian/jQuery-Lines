@@ -1,4 +1,4 @@
-/*! jQuery Lines v1.0.1 | (c) 2013 Joseadrian Ochoa | http://github.com/joseadrian */
+/*! jQuery Lines v1.0.2 | (c) 2013 Joseadrian Ochoa | http://github.com/joseadrian */
 (function($){
 
   $.fn.lines = function(opts){
@@ -15,7 +15,7 @@
       el.text('');
       
       while(words.length > 0) {
-        var height = el.innerHeight(), word = words.shift();
+        var height = el.innerHeight(), word = words.shift(), width = 0;
         
         line.push(word); 
         el.text(line.join(' '));
@@ -31,21 +31,22 @@
           words.unshift(line.pop());
         }
         
-        if(addLine && line.length > 0){
-          lines.push(line = line.join(' '));
-        }
-        
         if(addLine && line.length > 0) {
+          line = { 
+            text: line = line.join(' '),
+            width: width = el.html('<span>' + line + '</span>').find('span').width()
+          };
           
-          if(opts.onLine) {
+          lines.push(line);
+          
+          if(opts.onLine) {            
             var replace = opts.onLine.call(this, lines.length, line);
-            typeof replace == "string" && (lines[lines.length-1] = replace);
+            typeof replace == "string" && (lines[lines.length-1].text = replace);
           }
           
-          if(words.length > 0 && opts.truncate && opts.truncate == lines.length) {
-            
+          if(words.length > 0 && opts.truncate && opts.truncate == lines.length) {   
             // Remove last word
-            lines[lines.length-1] = line.split(' ').slice(0, -1).join(' ');
+            lines[lines.length-1].text = line.text.split(' ').slice(0, -1).join(' ');
             opts.ellipsis = opts.ellipsis||'...';
             break;
           }
@@ -61,7 +62,7 @@
         lines = _lines;
       }
       
-      el.html(lines.join(' ') + opts.ellipsis||'');
+      el.html($.map(lines, function(o, i){ return o.text; } ).join(' ') + opts.ellipsis||'');
     });
   }
 
