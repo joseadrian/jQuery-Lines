@@ -23,7 +23,7 @@ $('div').lines({
 - **truncate**: To show X number of lines.
 - **ellpsis**: To replace the dot notation at the end of all the text
 
-[Demo](http://joseadrian.github.io/jQuery-lines)
+[Demo](http://joseadrian.github.io/jQuery-Lines)
 ====
 Some examples to play with text lines.
 
