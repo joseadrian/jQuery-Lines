@@ -1,0 +1,110 @@
+<html>
+<head>
+  <title>jQuery lines</title>
+  <style>
+  body{
+    background: #EDEDED;
+    padding: 50px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 20px;
+  }
+  #main{
+    width: 650px;
+    margin: 0 auto;
+  }
+  #paragraph .line{
+    text-align: justify;
+  }
+  #paragraph .line.first:after,
+  #paragraph .line.second:after{
+    content: "";
+    width: 100%;
+    display: inline-block;
+  }
+  #paragraph > div{
+    text-align:center; 
+    padding-bottom: 50px;
+  }
+  .line span{
+    border-bottom: 1px solid #F00;
+  }
+  h1, h2{
+    text-align:center;
+  }
+  h1{
+    font-size: 50px;
+  }
+  h3{
+    border-bottom:1px solid #CCC;
+    padding-bottom: 20px;
+  }
+  footer{
+    text-align:center
+  }
+  </style>
+</head>
+<body>
+  <a href="//github.com/joseadrian/jQuery-Lines"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+  
+  <h1>jQuery Lines</h1>
+  
+  <div id="main">
+    <h2>A jQuery Plugin to play with text lines</h2>
+    <div id="paragraph">
+      <h3>Center last line</h3>
+      <div>
+        <div class="line first">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ut ligula lacus. Curabitur fermentum risus ac tellus commodo, nec gravida nisl viverra. Proin ut vehicula justo. Phasellus faucibus tristique convallis. Aenean eget rhoncus nunc. Nunc id interdum arcu, a egestas lectus. Etiam nec mauris lorem. Etiam egestas, elit sit amet elementum congue, odio enim porttitor velit, non dapibus nibh tellus eget ligula. Vestibulum vestibulum malesuada ipsum, eget gravida turpis porttitor rhoncus. Ut in leo id ipsum accumsan cursus et non eros. In tincidunt ultrices neque, eget ullamcorper erat tristique ac. Proin dignissim eros ac dolor pharetra, vitae laoreet magna egestas.</div>
+      </div>
+      <h3>Underline random lines</h3>
+      <div>
+        <div class="line second">Cras ullamcorper nunc at sapien pharetra, in iaculis nulla porttitor. Curabitur quis arcu aliquet metus semper aliquet. Vivamus libero tellus, laoreet non dui eu, vehicula sodales felis. Integer rutrum, elit vitae pellentesque aliquet, dui magna rutrum lectus, nec egestas lacus nisi id diam. Sed vulputate, justo et vestibulum adipiscing, massa lorem laoreet sem, in viverra mi mauris ut neque. Sed sit amet congue lorem. Sed sit amet nisl pulvinar, rhoncus erat tempus, pretium dui. Mauris dignissim leo tempor blandit pharetra. Pellentesque ut laoreet mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus.</div>
+      </div>
+      <h3>Truncate on line 5</h3>
+      <div>
+        <div class="line third">Velit, nisi, est enim assumenda rem quos repudiandae ratione voluptates possimus porro ad vel reiciendis illo veniam vitae accusantium eveniet. Debitis, dolor, vitae tempore enim quasi quos expedita mollitia molestiae quod nobis! Placeat, omnis, assumenda excepturi ut itaque consectetur tempore odio alias delectus sed earum quas quo impedit quis asperiores. Aliquid, deleniti, consequuntur quaerat fugit sint recusandae facilis totam repudiandae repellendus explicabo doloremque reprehenderit error modi esse vero quos cumque eius voluptatum natus quisquam minima animi ipsum impedit asperiores vel quo ab facere eligendi molestiae possimus! Aperiam, veniam dolorum cupiditate repudiandae consectetur sed recusandae expedita laborum delectus voluptate doloribus vitae repellat exercitationem aut modi quae non corporis impedit magnam doloremque temporibus dolores vel eaque numquam deleniti accusamus at. Velit, accusamus, mollitia, blanditiis maxime amet distinctio quia sapiente saepe a reiciendis voluptatum consequuntur ipsa! Totam, eum ullam tempora neque officiis accusantium perferendis. Soluta, quidem, repellat, iure, tempore delectus fugiat eligendi saepe esse vel dignissimos architecto possimus magnam asperiores modi temporibus officiis quos atque voluptates cupiditate ipsum sunt! Est, facilis repellat tempora adipisci fugiat aspernatur nam sed! Dolore laudantium nisi magni iusto dicta nobis id quis obcaecati voluptate! Voluptates dolore dolorum sint reiciendis optio commodi natus odit? Iure, quisquam debitis aliquid nostrum accusamus distinctio doloribus reiciendis enim iste ducimus a culpa excepturi et dolorem commodi recusandae consequuntur iusto natus molestiae placeat error dolore reprehenderit consectetur illum quod laboriosam fugiat in minima vitae beatae magni odio dolores sit laborum minus ipsum cupiditate doloremque omnis eos suscipit. Aspernatur, voluptas, pariatur, molestiae facere in cum odio ullam suscipit est maxime necessitatibus quaerat eaque corporis quisquam dicta hic.</div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    2013 | <a href="//github.com/joseadrian">Joseadrian</a>
+  </footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="jquery.lines.js"></script>
+  <script>
+    WebFontConfig = {
+      google: { families: [ 'Quicksand:300,400:latin' ] },
+      active: function(familyName, fvd) {
+        $('.line:lt(2)').lines({
+          onLine: function(lineNumber, text){
+            if($(this).hasClass('second') && Math.random() >= 0.5){
+              return '<span>'+text+'</span>'; 
+            }
+          }
+          , replace: function(lines) { 
+            if($(this).hasClass('first')) { 
+              $(this).after('<div>'+lines[lines.length-1]+'</div>');
+              lines[lines.length-1]  = '';
+              return lines; 
+            }
+          }
+        });
+        
+        $('.line.third').lines({
+          truncate: 5,
+          ellipsis: '...'
+        });
+      }
+    };
+  
+    (function() {
+      var wf = document.createElement('script');
+      wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+          '://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js';
+      wf.type = 'text/javascript';
+      wf.async = 'true';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(wf, s);
+    })();
+  </script>
+</body>
+</html>
