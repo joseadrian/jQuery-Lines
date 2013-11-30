@@ -7,11 +7,11 @@ Usage
 
 ```
 $('div').lines({
-  onLine: function(lineNumber, text){
-    return '<div>:: '+text+'</div>';
+  onLine: function(lineNumber, line){
+    return '<div style="width:'+line.width*2+'px">:: '+line.text+'</div>';
   }
   , replace: function(lines){ 
-    lines[lines.length - 1] = lines[lines.length-1] + ' :the end:';
+    lines[lines.length - 1].text = lines[lines.length-1].text + ' :the end:';
     return lines;
   }
   , truncate: 5
